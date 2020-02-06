@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ServiceDirectoryDemo",
+    "id": "9368a63f-1f55-4e3f-8eba-bd0c3db03444",
+    "version": "1.0.1.0",
+    "includeClientSideAssets": true,
+    "isDomainIsolated": false
+  },
+  "paths": {
+    "zippedPackage": "solution/service-directory-webpart.sppkg"
+  }
+}
