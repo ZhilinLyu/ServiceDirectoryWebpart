@@ -38,7 +38,7 @@ const RegionOptions = [
   { key: 'Central', text: 'Central' },
   { key: 'Redfern', text: 'Redfern' },
   { key: 'Kiama', text: 'Kiama' },
- // { key: '', text: 'Region' }
+  { key: '', text: 'Region' }
 ]
 
 const filterType = ['Status', 'Servicetype', 'Description', 'Region']
@@ -69,7 +69,7 @@ export interface state {
     }
   ];
   searchText: '';
-  filterOption: [];
+  //filterOption: [];
   setNumber: number
 }
 
@@ -109,7 +109,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
         }
       ],
       searchText: '',
-      filterOption: [],
+      //filterOption: [],
       setNumber: 0
 
     };
@@ -219,12 +219,14 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
 
   public clearFilter () {
     let _clearFilter: any = [...this.state.source];
-
     this.setState({
-      serviceDirectory: _clearFilter
+      serviceDirectory: _clearFilter, 
     });
-
+    
+    
   }
+
+
 
   public render(): React.ReactElement<IServiceDirectoryDemoProps> {
 

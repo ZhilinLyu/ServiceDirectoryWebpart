@@ -17,7 +17,6 @@ export default class Filter extends React.Component<IFilterProps>{
     public state = {
         //   options : []
          filterStack: []
-         
     }
 
     public render(): React.ReactElement<IFilterProps> {
