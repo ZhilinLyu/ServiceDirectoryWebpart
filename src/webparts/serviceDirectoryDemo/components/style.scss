@@ -1,5 +1,5 @@
 .card {
-    min-height: 19rem;
+    min-height: 25rem;
     min-width: 5rem;
     display: flex;
     flex-wrap: initial;
@@ -41,3 +41,10 @@
     text-align: center;
   }
 
+.clearButton{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-color: #0078d4;
+}
