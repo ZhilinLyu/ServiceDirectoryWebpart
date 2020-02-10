@@ -3,38 +3,42 @@ import pnp, { Items } from 'sp-pnp-js';
 import { IServiceDirectoryDemoProps } from './IServiceDirectoryDemoProps';
 import Service from './Service';
 import Filter from './Filter';
+import { filterStack } from './Filter';
 import 'bulma/css/bulma.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Search from './Search';
 import 'office-ui-fabric-react';
 import './style.scss';
 import { DefaultButton, PrimaryButton, Stack, IStackTokens, ThemeProvider } from 'office-ui-fabric-react';
-import {sp} from "@pnp/sp/presets/all";
+import { sp } from "@pnp/sp/presets/all";
+import { _Profiles } from '@pnp/sp/profiles/types';
 
 
 const StatusOptions = [
   { key: 'Published', text: 'Published' },
   { key: 'Draft', text: 'Draft' },
-  { key: '', text: 'Status' }
+ // { key: '', text: 'Status' }
 ]
 const ServiceTypeOptions = [
-  { key: 'Repairs & Maintenance', text: 'Repairs & Maintenance' },
-  { key: 'Rubbish Removal', text: 'Rubbish Removal' },
+  { key: 'Manufacturer', text: 'Manufacturer' },
+  { key: 'Digital', text: 'Digital' },
   { key: 'Cleaning', text: 'Cleaning' },
   { key: 'Electrical', text: 'Electrical' },
-  { key: '', text: 'ServiceType' }
+ // { key: '', text: 'ServiceType' }
 ]
 
 const DescriptionOptions = [
   { key: 'Repair and Maintenance', text: 'Repair and Maintenance' },
   { key: 'Property Maintenance', text: 'Property Maintenance' },
-  { key: 'Repair and Maint Electrical', text: 'Repair and Maint Electrical' },
-  { key: '', text: 'Description' }
+  { key: 'Testing', text: 'Testing' },
+  //{ key: '', text: 'Description' }
 ]
 
 const RegionOptions = [
-  { key: 'Bay Of Plenty', text: 'Bay Of Plenty' },
-  { key: '', text: 'Region' }
+  { key: 'Central', text: 'Central' },
+  { key: 'Redfern', text: 'Redfern' },
+  { key: 'Kiama', text: 'Kiama' },
+ // { key: '', text: 'Region' }
 ]
 
 const filterType = ['Status', 'Servicetype', 'Description', 'Region']
@@ -48,6 +52,7 @@ export interface state {
       ServiceType: string,
       Phone?: string,
       Status: string,
+      Region:string,
       Image: string
     }
   ];
@@ -58,6 +63,7 @@ export interface state {
       Description: "",
       ServiceType: "",
       Phone?: "",
+      Region:"",
       Status: "",
       Image: ""
     }
@@ -73,7 +79,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
 
     super(props);
     sp.setup({
-      spfxContext:this.props.context
+      spfxContext: this.props.context
     });
 
     this.state = {
@@ -85,6 +91,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
           Description: "",
           ServiceType: "",
           Phone: "",
+          Region:"",
           Status: "",
           Image: ""
         }
@@ -96,6 +103,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
           Description: "",
           ServiceType: "",
           Phone: "",
+          Region:"",
           Status: "",
           Image: ""
         }
@@ -119,14 +127,16 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
 
   public setDirectory = p => {
     let _setDirectory = [];
-    const _partDirectory = this.state.serviceDirectory
-    for (var i = 0; i < _partDirectory.length; i += 8) {
-      _setDirectory.push(_partDirectory.slice(i, i + 8))
+    const _partDirectory = this.state.serviceDirectory;
+    if (_partDirectory) {
+      for (var i = 0; i < _partDirectory.length; i += 9) {
+        _setDirectory.push(_partDirectory.slice(i, i + 9))
+      }
+      return _setDirectory[p];
+    }else{
+     
     }
-    return _setDirectory[p];
   }
-
-
 
   public handleSet = p => {
     if (this.setDirectory(p)) {
@@ -141,13 +151,11 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
     // return this.state.setNumber;
   }
 
-
-
   public componentDidUpdate() {
-    console.log(this.setDirectory(1));
+    //console.log(this.setDirectory(1));
     //console.log(this.state.serviceDirectory);
 
-    console.log(this.state.searchText);
+    //console.log(this.state.searchText);
   }
 
   public search = text => {
@@ -170,17 +178,30 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
   }
 
 
-  public filter = clickValue => {
+  // public filter = clickValue => {
+  //   let _filter: any = [...this.state.source];
+  //   _filter = _filter.filter(p => {
+  //     if (p.Status) {
+  //       const matchStatus = p.Status.match(clickValue) || p.ServiceType.match(clickValue);
+  //       return !!matchStatus;
+  //     }
+  //   });
+  //   this.setState({
+  //     serviceDirectory: _filter
+  //   });
+  // }
+
+  public filter = filterValue => {
     let _filter: any = [...this.state.source];
     _filter = _filter.filter(p => {
-      if (p.Status) {
-        const matchStatus = p.Status.match(clickValue) || p.ServiceType.match(clickValue);
-        return !!matchStatus;
-      }
+        const matchValue = p.Status.match(filterValue[0]) && p.ServiceType.match(filterValue[1]) && p.Description.match(filterValue[2]) && p.Region.match(filterValue[3]);
+        
+        return !!matchValue;
     });
     this.setState({
       serviceDirectory: _filter
     });
+    console.log("filter function value:" + filterValue);
   }
 
   public filterLetter = clickLetter => {
@@ -196,12 +217,13 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
     });
   }
 
-  public clearFilter = p => {
+  public clearFilter () {
     let _clearFilter: any = [...this.state.source];
 
     this.setState({
       serviceDirectory: _clearFilter
     });
+
   }
 
   public render(): React.ReactElement<IServiceDirectoryDemoProps> {
@@ -225,10 +247,16 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
             <div className="column is-one-quarter">
               <Filter filter={this.filter} clearFliter={this.clearFilter} filterOption={RegionOptions} filterType={filterType[3]} />
             </div>
+            {/* <div className="column is-one-quarter">
+              <button onClick={this.clearSearch}></button>
+            </div> */}
           </div>
           <div className="columns is-miltiline is-mobile">
-            <div className="column">
+            <div className="column is-three-quarters">
               <Search search={this.search} clearSearch={this.clearSearch} />
+            </div>
+            <div className="column is-one-quarter">
+              <PrimaryButton className="clearButton" onClick={()=>this.clearFilter()} text="clear filter" />
             </div>
           </div>
 
@@ -241,9 +269,9 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
           <div className="ServiceView">
             <div className="columns is-multiline is-mobile" >
               {this.setDirectory(this.state.setNumber).map(p => {
-                return <div className="column is-one-quarter" key={p.ID}>
+                return <div className="column is-one-third" key={p.ID}>
                   <Service ID={p.ID} Title={p.Title} Description={p.Description}
-                    Status={p.Status} ServiceType={p.ServiceType} Phone={p.Phone} Image={p.Image}
+                    Status={p.Status} ServiceType={p.ServiceType} Phone={p.Phone} Region={p.Region} Image={p.Image}
                   />
                 </div>
               })}
@@ -257,7 +285,8 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
 
               <DefaultButton onClick={() => this.handleSet(0)} text="1" />
               <DefaultButton onClick={() => this.handleSet(1)} text="2" />
-              
+              <DefaultButton onClick={()=> this.handleSet(2)} text="3" />
+
 
               {/* <button onClick={()=>this.handleSet(1)}>2</button>
               <button onClick={()=>this.handleSet(2)}>3</button> */}
