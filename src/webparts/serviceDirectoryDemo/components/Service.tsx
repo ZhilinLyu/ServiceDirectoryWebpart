@@ -26,7 +26,9 @@ export default class Service extends React.Component<IServiceProps>{
                         </div>
                         <p className="p-tags">{this.props.Status}</p>
                         <p className="p-name">{this.props.Title}</p>
-                        <p>{this.props.Description}</p>
+                        <p >{this.props.ServiceType}</p>
+                        <p >{this.props.Description}</p>
+                        <p>{this.props.Region}</p>
                     </div>
                 </div>
             </div>
