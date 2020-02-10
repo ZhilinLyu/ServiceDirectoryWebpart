@@ -5,5 +5,6 @@ export interface IServiceProps {
     Status:string;
     ServiceType:string;
     Phone: string;
+    Region:string;
     Image:string
   }
