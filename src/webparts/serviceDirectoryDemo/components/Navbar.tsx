@@ -15,24 +15,7 @@ export default class Navbar extends React.Component <INavbarProps>{
 
         return (
             <div className="columns is-multiline is-mobile">
-                {/* <div className="column is-2" >
-                   <div className="filterLabel">A-D</div>
-                </div>
-                <div className="column is-2">
-                <div className="filterLabel">A-D</div>
-                </div>
-                <div className="column is-2">
-                <div className="filterLabel">A-D</div>
-                </div>
-                <div className="column is-2">
-                <div className="filterLabel">A-D</div>
-                </div>
-                <div className="column is-2">
-                <div className="filterLabel">A-D</div>
-                </div>
-                <div className="column is-2">
-                <div className="filterLabel">A-D</div>
-                </div> */}
+               
 
                 <div className="column is-2" >
                     <div className="filterLabel" >

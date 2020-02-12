@@ -26,11 +26,11 @@ export default class Filter extends React.Component<IFilterProps>{
             <Dropdown
                 placeholder={this.props.filterType}
                 options={
-                    //    this.handleOptions(StatusOptions) 
+          
                     this.props.filterOption
                 }
                 onChange={this._onChage}
-                // styles={{dropdown:{width:200}}}
+       
 
             />
             
@@ -43,28 +43,7 @@ export default class Filter extends React.Component<IFilterProps>{
         //console.log(`Selection change: ${item.text} ${item.selected ? 'selected' : 'unselected'}`);
         //console.log(item.key);
         console.log("item.key now is : " + item.key);
-        //console.log("filterStack...." + this.filterChoice(item.key));
-        // if(item.key){
-        //     this.props.filter(item.key);
-        // }else{
-        //     this.props.clearFliter();
-        // }
-        // let StatusFilter = '';
-        // let ServiceTypeFilter ='' ;
-        // let DescriptionFilter = '' ;
-        // let RegionFilter = '' ;
-        //var filterStack = [StatusFilter,ServiceTypeFilter,DescriptionFilter,RegionFilter];
-        // if(item.key === 'Published' || 'Draft'){
-        //     StatusFilter = item.key;
-        //     this.setState({
-        //         filterStack: _filterStack
-        //     });
-        // }if (item.key === 'Repairs & Maintenance' || 'Rubbish Removal'){
-        //     ServiceTypeFilter = item.key;
-        //     this.setState({
-        //         filterStack : _filterStack
-        //     });
-        // }
+
         switch (item.key){
             case 'Published': case 'Draft': 
                 StatusFilter = item.key;

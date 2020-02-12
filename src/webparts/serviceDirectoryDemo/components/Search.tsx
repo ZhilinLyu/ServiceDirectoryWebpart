@@ -10,13 +10,6 @@ export default class Search extends React.Component<ISearchProps>{
         searchText : ''
     };
    
-    // public handleChange = e => {
-    //     const value = e.target.value;
-    //     this.setState({
-    //         searchText:value
-    //     });
-    //     this.props.search(value);
-    // }
     
     public handleSearch = p => {
         if(this.props.search(p)){
@@ -33,12 +26,10 @@ export default class Search extends React.Component<ISearchProps>{
                 <div className="">
                   <SearchBox
                     placeholder="Search the title"
-                    // onSearch={value=>this.state.searchText}
-                    // value={this.state.searchText}
-                    // onChange={this.handleChange}
+
                     onSearch={newValue =>
                      this.props.search(newValue)
-                    //console.log("handlesearch " + this.handleSearch(newValue))
+
                     }
                     onClear={ev=> 
                     this.props.clearSearch()

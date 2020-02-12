@@ -17,14 +17,14 @@ import { _Profiles } from '@pnp/sp/profiles/types';
 const StatusOptions = [
   { key: 'Published', text: 'Published' },
   { key: 'Draft', text: 'Draft' },
- // { key: '', text: 'Status' }
+  // { key: '', text: 'Status' }
 ]
 const ServiceTypeOptions = [
   { key: 'Manufacturer', text: 'Manufacturer' },
   { key: 'Digital', text: 'Digital' },
   { key: 'Cleaning', text: 'Cleaning' },
   { key: 'Electrical', text: 'Electrical' },
- // { key: '', text: 'ServiceType' }
+  // { key: '', text: 'ServiceType' }
 ]
 
 const DescriptionOptions = [
@@ -52,7 +52,7 @@ export interface state {
       ServiceType: string,
       Phone?: string,
       Status: string,
-      Region:string,
+      Region: string,
       Image: string
     }
   ];
@@ -63,7 +63,7 @@ export interface state {
       Description: "",
       ServiceType: "",
       Phone?: "",
-      Region:"",
+      Region: "",
       Status: "",
       Image: ""
     }
@@ -91,7 +91,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
           Description: "",
           ServiceType: "",
           Phone: "",
-          Region:"",
+          Region: "",
           Status: "",
           Image: ""
         }
@@ -103,7 +103,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
           Description: "",
           ServiceType: "",
           Phone: "",
-          Region:"",
+          Region: "",
           Status: "",
           Image: ""
         }
@@ -133,8 +133,8 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
         _setDirectory.push(_partDirectory.slice(i, i + 9))
       }
       return _setDirectory[p];
-    }else{
-     
+    } else {
+
     }
   }
 
@@ -145,28 +145,26 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
       });
       return this.state.setNumber
     }
-    // this.setState({
-    //   setNumber : p 
-    // })
-    // return this.state.setNumber;
   }
 
   public componentDidUpdate() {
-    //console.log(this.setDirectory(1));
-    //console.log(this.state.serviceDirectory);
 
-    //console.log(this.state.searchText);
   }
 
   public search = text => {
     let _services: any = [...this.state.source];
+    let _backup : any = [...this.state.source];
     _services = _services.filter(p => {
       const matchArr = p.Title.match(new RegExp(text, 'gi'));
       return !!matchArr;
     });
-    this.setState({
-      serviceDirectory: _services
-    });
+    if(_services[0]){
+      this.setState({
+        serviceDirectory : _services
+      });
+    }else{
+      console.log("no such results!")
+    }
   }
 
   public clearSearch = p => {
@@ -177,31 +175,21 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
     });
   }
 
-
-  // public filter = clickValue => {
-  //   let _filter: any = [...this.state.source];
-  //   _filter = _filter.filter(p => {
-  //     if (p.Status) {
-  //       const matchStatus = p.Status.match(clickValue) || p.ServiceType.match(clickValue);
-  //       return !!matchStatus;
-  //     }
-  //   });
-  //   this.setState({
-  //     serviceDirectory: _filter
-  //   });
-  // }
-
   public filter = filterValue => {
     let _filter: any = [...this.state.source];
     _filter = _filter.filter(p => {
-        const matchValue = p.Status.match(filterValue[0]) && p.ServiceType.match(filterValue[1]) && p.Description.match(filterValue[2]) && p.Region.match(filterValue[3]);
-        
-        return !!matchValue;
+      const matchValue = p.Status.match(filterValue[0]) && p.ServiceType.match(filterValue[1]) && p.Description.match(filterValue[2]) && p.Region.match(filterValue[3]);
+
+      return !!matchValue;
     });
+    if(_filter[0]){
     this.setState({
       serviceDirectory: _filter
     });
-    console.log("filter function value:" + filterValue);
+  }else {
+    console.log("nothing match the filter!")
+  }
+    
   }
 
   public filterLetter = clickLetter => {
@@ -217,13 +205,13 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
     });
   }
 
-  public clearFilter () {
+  public clearFilter() {
     let _clearFilter: any = [...this.state.source];
     this.setState({
-      serviceDirectory: _clearFilter, 
+      serviceDirectory: _clearFilter,
     });
-    
-    
+
+
   }
 
 
@@ -249,24 +237,16 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
             <div className="column is-one-quarter">
               <Filter filter={this.filter} clearFliter={this.clearFilter} filterOption={RegionOptions} filterType={filterType[3]} />
             </div>
-            {/* <div className="column is-one-quarter">
-              <button onClick={this.clearSearch}></button>
-            </div> */}
+
           </div>
           <div className="columns is-miltiline is-mobile">
             <div className="column is-three-quarters">
               <Search search={this.search} clearSearch={this.clearSearch} />
             </div>
             <div className="column is-one-quarter">
-              <PrimaryButton className="clearButton" onClick={()=>this.clearFilter()} text="clear filter" />
+              <PrimaryButton className="clearButton" onClick={() => this.clearFilter()} text="clear filter" />
             </div>
           </div>
-
-          {/* <div className="columns is-miltiline is-mobile">
-            <div className="column">
-              <Navbar filterLetter={this.filterLetter}/>
-            </div>
-          </div> */}
 
           <div className="ServiceView">
             <div className="columns is-multiline is-mobile" >
@@ -287,11 +267,7 @@ export default class ServiceDemo extends React.Component<IServiceDirectoryDemoPr
 
               <DefaultButton onClick={() => this.handleSet(0)} text="1" />
               <DefaultButton onClick={() => this.handleSet(1)} text="2" />
-              <DefaultButton onClick={()=> this.handleSet(2)} text="3" />
-
-
-              {/* <button onClick={()=>this.handleSet(1)}>2</button>
-              <button onClick={()=>this.handleSet(2)}>3</button> */}
+              <DefaultButton onClick={() => this.handleSet(2)} text="3" />
 
             </div>
           </div>
